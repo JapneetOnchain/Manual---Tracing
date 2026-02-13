@@ -105,13 +105,21 @@ Compliance risk: Unlimited approval = high risk (drain potential if spender comp
 
 
 Tx Hash: https://etherscan.io/tx/0x49face7224a8785529914c1089e92d8b48a1ee6ad8327dc30fb32b7240eac7f9
+
 Type: Uniswap V2 Swap (ETH → Token)
+
 Input: 0.06817 ETH (~$133.64)
+
 Output: 2,962,989.756 RocketRiders (RDRS)
+
 Internal: WETH Deposit (ETH wrapped automatically)
-Method: swapExactETHForTokens (or similar)
+
+Method: swapExactETHForTokens
+
 Logs: Swap event
+
 Note: User swapped ETH for large amount of low-liquidity meme token via Uniswap V2 Router. Pattern: ETH → internal WETH wrap → swap → token out.
+
 Compliance risk: High token count + low-value token = potential layering/pump-dump. Flag downstream transfers (bridge/mixer?).
 
 
