@@ -124,6 +124,28 @@ Compliance risk: High token count + low-value token = potential layering/pump-du
 
 
 
+### Case 006 Balancer Vault Swap: AURA → WETH → ETH Unwrap
+
+![7D14D218-6B3B-43E8-A24B-E7E622EE5A0D](https://github.com/user-attachments/assets/6ff2b63f-fb6a-49e1-9367-87ec55025706)
+
+
+Tx Hash: https://etherscan.io/tx/0xcc25eec5f5fe3c25743a07ca0874b0076bce5e6936aa545dc733ebdcfeb512b0
+
+Type: Balancer Swap (AURA → WETH → ETH)
+
+Input: 69.87 AURA (~$2.38)
+
+Output: ~0.001182 WETH unwrapped to ETH (~$2.43)
+
+Method: swap
+
+Internal: WETH Withdrawal (unwrapped to ETH)
+
+Logs: Swap event (AURA in, WETH out)
+
+Note: User swapped AURA for ETH via Balancer Vault. Pattern: Token in → swap → WETH out → ETH unwrapped to user.
+
+Compliance risk: Small amount on low-cap token — possible test/dusting or layering start. Flag downstream ETH flows (bridge/mixer?).
 
 
 ## Disclaimer
