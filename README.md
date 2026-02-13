@@ -75,12 +75,44 @@ Compliance Note: This could be dusting or peel chain? or maybe just a test trans
 
 
 
+### Case 004 Unlimited Approval 
+
+![033D0B26-7559-49FD-A554-4B32594D82AA](https://github.com/user-attachments/assets/016c44c9-9ded-4553-9ab8-85c52791df6c)
+
+
+Tx Hash: https://etherscan.io/tx/0x8cdb894ae780cf9fad047061be34eef373abf736bb1a1e6b4f5c059e88dd1d54
+
+Type: ERC-20 Approval (RIZO token)
+
+Method: approve / 0x095ea7b3
+
+Approved Amount: Unlimited (max uint256)
+
+Spender: Uniswap V2 Router 2
+
+Note: User granted unlimited permission to Uniswap V2 Router for RIZO. No tokens moved, just allowance set.
+
+Compliance risk: Unlimited approval = high risk (drain potential if spender compromised). Alone = flag & monitor. Needs downstream txns to confirm layering/malicious use.
 
 
 
 
+### Case 005 Simple Swap (Uniswap V2)
 
 
+![24DC181B-6822-4449-A9F7-638AF27841FC](https://github.com/user-attachments/assets/53433989-aabe-4456-9a3e-c5781e2cc618)
+
+
+
+Tx Hash: https://etherscan.io/tx/0x49face7224a8785529914c1089e92d8b48a1ee6ad8327dc30fb32b7240eac7f9
+Type: Uniswap V2 Swap (ETH → Token)
+Input: 0.06817 ETH (~$133.64)
+Output: 2,962,989.756 RocketRiders (RDRS)
+Internal: WETH Deposit (ETH wrapped automatically)
+Method: swapExactETHForTokens (or similar)
+Logs: Swap event
+Note: User swapped ETH for large amount of low-liquidity meme token via Uniswap V2 Router. Pattern: ETH → internal WETH wrap → swap → token out.
+Compliance risk: High token count + low-value token = potential layering/pump-dump. Flag downstream transfers (bridge/mixer?).
 
 
 
