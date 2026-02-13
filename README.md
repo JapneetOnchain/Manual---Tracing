@@ -135,7 +135,8 @@ Type: Balancer Swap (AURA → WETH → ETH)
 
 Input: 69.87 AURA (~$2.38)
 
-Output: ~0.001182 WETH unwrapped to ETH (~$2.43)
+Output:0.001182 WETH unwrapped to ETH ($2.43)
+
 
 Method: swap
 
