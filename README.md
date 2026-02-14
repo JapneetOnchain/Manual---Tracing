@@ -149,6 +149,63 @@ Note: User swapped AURA for ETH via Balancer Vault. Pattern: Token in → swap �
 Compliance risk: Small amount on low-cap token — possible test/dusting or layering start. Flag downstream ETH flows (bridge/mixer?).
 
 
+
+### Case 007 (Prior Approval + Swap)
+
+![B858DDE8-8B77-4774-9BCD-9051BD77699C](https://github.com/user-attachments/assets/e0887d13-00f2-4e86-a5e3-6632546ca439)
+
+
+Tx Hash (Approval): https://etherscan.io/tx/0x0fe9d3b10c075fea04aefa7d530e4266bca716cd847b1313732a1cf1638ff1a0
+
+Type: ERC-20 Approval (Unlimited Allowance)
+
+Token: RTX
+
+Spender: Uniswap V2 Router 2
+
+Allowance: Unlimited (2^256 - 1)
+
+Method: approve(address spender, uint256 amount)
+
+Logs: Approval event (owner → router, unlimited amount)
+Note: User granted delegated authority to Uniswap V2 Router 2 to spend RTX via transferFrom.
+No token balance change occurred. This approval enables future swaps without additional approval transactions.
+
+Compliance Risk:
+Unlimited approval exposes wallet to contract risk if spender contract is malicious or compromised. Verify spender legitimacy (Uniswap V2 Router 2 is verified and widely used).
+
+
+![15F16120-8FA4-48C8-A845-F6F29ED942E0](https://github.com/user-attachments/assets/4e5c34e0-a703-4243-91e2-85516c717c6d)
+
+
+Tx Hash (Swap): https://etherscan.io/tx/0xe0abae8eddbfb296089b68052180193e50a9278bc81e2c538449d04b664f6819
+
+Type: Uniswap V2 Swap (RTX → WETH → ETH)
+
+Input: 10.32M RTX
+
+Output: ~0.158 ETH
+
+Method: swapExactTokensForETH
+
+Internal: WETH Withdrawal (WETH → ETH unwrap)
+
+Logs:
+Transfer event (RTX: wallet → Uniswap V2 Pair)
+Swap event (pricing execution in pool)
+WETH Transfer (pair → router)
+Withdrawal event (WETH unwrapped to ETH)
+
+Note:
+User swapped RTX for ETH via Uniswap V2.
+
+Execution flow:
+Token in → Router transferFrom → Pool swap → WETH out → WETH unwrapped → ETH sent to wallet.
+This swap was enabled by the prior unlimited RTX approval granted to the Uniswap V2 Router.
+
+Compliance Risk:
+Standard DEX swap pattern. Key validation point: delegated authority was previously granted, so token movement was authorized.
+
 ## Disclaimer
 This case study is for educational and research purposes only.
 All addresses are public and no illicit activity is asserted.
