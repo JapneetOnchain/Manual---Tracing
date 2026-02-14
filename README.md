@@ -1,6 +1,6 @@
-Basic Wallet Activity Tracing
+Manual Wallet Activity Tracing
 
-This case documents simple on-chain actions performed by a single wallet:
+This case documents on-chain actions performed by a single wallet including:
 - Deposits
 - Withdrawals
 - Token swaps
