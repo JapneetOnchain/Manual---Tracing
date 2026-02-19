@@ -220,7 +220,7 @@ Compliance Risk:
 Standard DEX swap pattern. Key validation point: delegated authority was previously granted, so token movement was authorized.
 
 
-#### Case 008  Liquidity Added(MINT)
+#### Case 008  Liquidity Added(Mint)
 
 
 
@@ -247,6 +247,31 @@ Compliance risk: Initial liquidity creation consistent with token launch behavio
 
 Non compliance perspective: This is a standard token launch step — creator adds initial liquidity + enables trading via OpenTrading(). Common for meme/community tokens to bootstrap volume and earn fees as LP.
 
+
+
+### Case 009 Liquidity Removal (Burn)
+
+![E057B4B5-9BE9-4C96-B7B9-F8B08E511C7D](https://github.com/user-attachments/assets/539276e6-a581-4fc7-87da-7a752721057a)
+
+Tx Hash: https://ethersscan.io/tx/0x905c2befdcfd0ecc2e3b1fc8e77754b8571c4dd480c80c7a7e887d9e8f0293a9
+
+Link - https://etherscan.io/tx/0x905c2befdcfd0ecc2e3b1fc8e77754b8571c4dd480c80c7a7e887d9e8f0293a9
+
+Type: Liquidity Removal
+
+Tokens Returned: 2,225 NOVA + 1,463 USDC
+
+LP Token Burned: 0.00180461195773303
+
+Method: removeLiquidity
+
+Logs: Transfer (LP to pool), Burn (LP burned), Transfer (NOVA + USDC back to user), Sync (pool reserves updated)
+
+Note: User removed liquidity from NOVA/USDC pool → burned LP token → received proportional NOVA + USDC back.
+
+Compliance risk: Small removal in low cap token = possible layering or wash trading end. Flag LP wallet for repeated removals or downstream bridges/mixers.
+
+Non compliance perspective: Wallet exited a liquidity position and reclaimed underlying assets
 
 
 
