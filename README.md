@@ -1,7 +1,6 @@
-
 <div align="center">
   <h1>Manual On-Chain Tracing Portfolio</h1>
-  <p><strong>Japneet</strong> • Crypto Compliance Specialist</p>
+  <p><strong>Japneet</strong> • Crypto Compliance & Defi Forensics</p>
   <p>Building deep forensics skills for DeFi & Web3 risks</p>
 
   <img src="https://img.shields.io/badge/Ethereum-3C3C3D?style=for-the-badge&logo=ethereum&logoColor=white" alt="Ethereum" />
