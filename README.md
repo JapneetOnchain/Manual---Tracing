@@ -244,7 +244,7 @@ Note: Creator added 1B GMPEPE + 0.5 ETH to new Uniswap V2 pool → received ~707
 
 Crypto-native insight: Low ETH pairing = very low liquidity → high impermanent loss & price manipulation risk.
 
-Compliance risk: Creator holds LP tokens → rug pull potential. Small initial liquidity + new token = high pump/dump or layering risk.
+Compliance risk: Initial liquidity creation consistent with token launch behavior. However creator holds LP tokens → rug pull potential. Small initial liquidity + new token = high pump/dump or layering risk.
 
 Non compliance perspective: This is a standard token launch step — creator adds initial liquidity + enables trading via OpenTrading(). Common for meme/community tokens to bootstrap volume and earn fees as LP.
 
