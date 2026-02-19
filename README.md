@@ -236,7 +236,7 @@ Type: Uniswap V2 Liquidity Add
 
 Tokens Added: 1,000,000,000 GMPEPE + 0.5 ETH ($967.68)
 
-Method: Add Liquidity ETH
+Method: OpenTrading ()Add Liquidity ETH
 
 Logs: Approval, PairCreated, MaxTxAmountUpdated, Transfer (GMPEPE to pool), Deposit (WETH), Transfer (WETH to pool), Sync, Mint (LP tokens)
 
