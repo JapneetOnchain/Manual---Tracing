@@ -4,8 +4,10 @@ This case documents on-chain actions performed by a single wallet including:
 - Deposits
 - Withdrawals
 - Token swaps
+- Mint
+- Burn
 
-The objective is to demonstrate basic manual tracing and interpretation
+The objective is to demonstrate manual tracing and interpretation
 of transaction intent using public blockchain data.
 
 ---
