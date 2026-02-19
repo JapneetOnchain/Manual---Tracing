@@ -208,6 +208,37 @@ This swap was enabled by the prior unlimited RTX approval granted to the Uniswap
 Compliance Risk:
 Standard DEX swap pattern. Key validation point: delegated authority was previously granted, so token movement was authorized.
 
+
+#### Case 008  Liquidity Added(MINT)
+
+
+
+![29ED050E-49AE-4DA2-BA30-53A6264AACB1](https://github.com/user-attachments/assets/89fcab18-0ee2-4c53-b4ba-9dc147682013)
+
+
+![E5FF69F4-7533-43D8-8B33-9D17C7CFF6AD](https://github.com/user-attachments/assets/eebeb45d-da24-4f6e-8447-e0673ad8c0c1)
+
+Tx Hash: https://etherscan.io/tx/0x85f24d8e52788d0fa658c318a14b58f84a8e9ce773247264802e20ae520a3efa
+
+Type: Uniswap V2 Liquidity Add
+
+Tokens Added: 1,000,000,000 GMPEPE + 0.5 ETH ($967.68)
+
+Method: Add Liquidity ETH
+
+Logs: Approval, PairCreated, MaxTxAmountUpdated, Transfer (GMPEPE to pool), Deposit (WETH), Transfer (WETH to pool), Sync, Mint (LP tokens)
+
+Note: Creator added 1B GMPEPE + 0.5 ETH to new Uniswap V2 pool → received ~707M UNI-V2 LP tokens.
+
+Crypto-native insight: Low ETH pairing = very low liquidity → high impermanent loss & price manipulation risk.
+
+Compliance risk: Creator holds LP tokens → rug pull potential. Small initial liquidity + new token = high pump/dump or layering risk.
+
+Non compliance perspective: This is a standard token launch step — creator adds initial liquidity + enables trading via OpenTrading(). Common for meme/community tokens to bootstrap volume and earn fees as LP.
+
+
+
+
 ## Disclaimer
 This case study is for educational and research purposes only.
 All addresses are public and no illicit activity is asserted.
