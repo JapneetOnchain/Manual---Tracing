@@ -1,14 +1,26 @@
-Manual Wallet Activity Tracing
 
-This case documents on-chain actions performed by a single wallet including:
-- Deposits
-- Withdrawals
-- Token swaps
-- Mint
-- Burn
+<div align="center">
+  <h1>Manual On-Chain Tracing Portfolio</h1>
+  <p><strong>Japneet</strong> • Crypto Compliance Specialist</p>
+  <p>Building deep forensics skills for DeFi & Web3 risks</p>
 
-The objective is to demonstrate manual tracing and interpretation
-of transaction intent using public blockchain data.
+  <img src="https://img.shields.io/badge/Ethereum-3C3C3D?style=for-the-badge&logo=ethereum&logoColor=white" alt="Ethereum" />
+  <img src="https://img.shields.io/badge/DeFi-00D1B2?style=for-the-badge&logo=defi&logoColor=white" alt="DeFi" />
+  <img src="https://img.shields.io/badge/Tracing-FF6B6B?style=for-the-badge&logo=tracing&logoColor=white" alt="Tracing" />
+
+  <br/><br/>
+  <em> • Smart contract risk analysis • Manual Tracing • Real cases</em>
+  <br/>
+</div>
+
+## About This Repository
+This repository contains my daily practice and deep-dive analyses of real Ethereum transactions.  
+Crypto-native forensics skills beyond dashboard tools focusing on raw Etherscan tracing, contract function reading, and DeFi-specific risk identification.
+
+### Key Skills Demonstrated
+- Manual reconstruction of flows (deposits, withdrawals, transfers, approvals, swaps, liquidity events)
+- Reading key smart contract functions & events (deposit, approve, swap, borrow, mint/burn)
+- Identifying compliance red flags (unlimited approvals, low-liquidity pools, layering patterns, bridge hops)
 
 ---
 
