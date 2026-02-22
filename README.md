@@ -274,6 +274,28 @@ Compliance risk: Small removal in low cap token = possible layering or wash trad
 Non compliance perspective: Wallet exited a liquidity position and reclaimed underlying assets
 
 
+### Case 10 Lending Deposit (Aave)
+
+
+![259C6D74-4D45-4E5F-9FC6-19BC54F7D36C](https://github.com/user-attachments/assets/ca39a3ae-5a7c-4aab-a357-a1c9be2457f1)
+
+
+Tx Hash: https://etherscan.io/tx/0x8b58d72c4c7d39a5b7a78017a2479bee671475f91eee88646a6eaf6988560254
+
+Type: Aave Deposit (Supply)
+
+Token Deposited: 0.0113827 WBTC
+
+Method: supply(address asset, uint256 amount, address onBehalfOf, uint16 referralCode)
+
+Logs: Supply event, Mint (aEthWBTC), Transfer (WBTC to reserve), ReserveDataUpdated
+
+Note: User deposited WBTC to Aave V3 Pool → received aEthWBTC receipt token (to earn yield).
+
+Compliance risk: Deposit could park funds to earn yield before layering (future borrow → swap → bridge). Standalone not suspicious but to be flagged if WBTC source is suspicious.
+
+Non compliance perspective: Over collateralization enforced by contract or oracle. Receipt token accrues interest on-chain.
+
 
 ## Disclaimer
 This case study is for educational and research purposes only.
