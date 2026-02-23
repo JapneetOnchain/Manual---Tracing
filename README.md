@@ -339,6 +339,33 @@ Compliance risk: Partial repay with clean funds → withdraw dirty collateral = 
 Non compliance perspective: Repay burns debt token, lowers health factor risk. Interest accrued on-chain via reserve index.
 
 
+
+
+### Case 13 (Aave Withdrawal)
+
+
+![7F99F044-F7AB-46C0-9E41-F7D83362F85C](https://github.com/user-attachments/assets/0207f269-76a6-4a72-87db-670504c16b3a)
+
+
+
+Tx Hash: https://etherscan.io/tx/0xd2a7105863fe08e32e2e768199c75cfbc8c7b6a94a9c479301585e3c1861a7d6
+
+Type: Aave V3 Withdrawal
+
+Token Withdrawn: 506.608387 USDT (~$506.55)
+
+Logs: ReserveDataUpdated, Transfer (aEthUSDT burn), Burn (aEthUSDT), Transfer (USDT to user), ReserveUsedAsCollateralDisabled, Withdraw event
+
+Note: User withdrew 506.61 USDT from Aave V3 → burned aEthUSDT receipt token + disabled collateral.
+
+Compliance risk: Withdrawal after repay = potential obfuscation (clean repay → dirty collateral out). Standalone not suspicious but to be traced downstream for swap/bridge/mixer.
+
+Non compliance perspective: Withdrawal burns receipt token → returns underlying + yield. Wallet redeemed its Aave deposit and exited the lending position.
+
+
+
+
+
 ## Disclaimer
 This case study is for educational and research purposes only.
 All addresses are public and no illicit activity is asserted.
