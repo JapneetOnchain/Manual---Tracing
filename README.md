@@ -297,6 +297,48 @@ Compliance risk: Deposit could park funds to earn yield before layering (future 
 Non compliance perspective: Over collateralization enforced by contract or oracle. Receipt token accrues interest on-chain.
 
 
+### Case 11 Borrowing (Aave)
+
+
+![C3A9CD04-A827-4D4F-AE24-F10178FF3EEA](https://github.com/user-attachments/assets/eddc489f-c2c1-401e-a013-908991a1be6c)
+
+
+Tx Hash: https://etherscan.io/tx/0x803fe6b96289ff7266226a6501724bba0db986860b5b07861b926304cff61c5b
+
+Type: Aave V3 Borrow
+
+Borrowed: 5,000 LINK (~$43,700)
+
+Logs: Borrow event, ReserveDataUpdated, Mint (aEthVariableDebtLINK), Transfer (LINK to borrower)
+
+Note: User borrowed 5,000 LINK at variable rate against collateral (From earlier deposit).
+
+Compliance risk: Borrow clean LINK → swap → bridge = layering pattern. Standalone not suspicious but to be flagged if collateral source suspicious or downstream txns show rapid movement.
+
+Non compliance perspective: Borrow requires over-collateralization (health factor >1) — enforced by contract or oracle. Variable rate adjusts with pool utilization. Borrowed funds are now liquid and can move across DeFi or off-ramp.
+
+
+### Case 12 (Repaying loan)
+
+![73EB1051-F812-4F7F-92F8-C48EA3A66294](https://github.com/user-attachments/assets/432ac685-3be9-4ecf-9638-ad65ea41a0b4)
+
+
+
+Tx Hash: https://etherscan.io/tx/0x037d81a5dd203833bb3e90bbb59e20ceeb95cc5ab45ebc7d10fdaf8c4495c371
+
+Type: Aave V3 Partial Repayment 
+
+Repaid: 140.28 USDC (principal + interest)
+
+Logs: Repay event, Burn (variable debt tokens), ReserveDataUpdated, Transfer (USDC to reserve)
+
+Note: User repaid 140.28 USDC on variable rate → reduced debt (140.281718 variable debt tokens burned).
+
+Compliance risk: Partial repay with clean funds → withdraw dirty collateral = obfuscation. Standalone not suspicious but to be traced downstream withdrawal for swap/bridge/mixer.
+
+Non compliance perspective: Repay burns debt token, lowers health factor risk. Interest accrued on-chain via reserve index.
+
+
 ## Disclaimer
 This case study is for educational and research purposes only.
 All addresses are public and no illicit activity is asserted.
