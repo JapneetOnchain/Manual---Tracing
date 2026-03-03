@@ -1,7 +1,6 @@
 <div align="center">
   <h1>Manual On-Chain Tracing Portfolio</h1>
   <p><strong>Japneet</strong> • Crypto Compliance & Defi Forensics</p>
-  <p>Building deep forensics skills for DeFi & Web3 risks</p>
 
   <img src="https://img.shields.io/badge/Ethereum-3C3C3D?style=for-the-badge&logo=ethereum&logoColor=white" alt="Ethereum" />
   <img src="https://img.shields.io/badge/DeFi-00D1B2?style=for-the-badge&logo=defi&logoColor=white" alt="DeFi" />
@@ -14,7 +13,7 @@
 
 ## About This Repository
 This repository contains my daily practice and deep-dive analyses of real Ethereum transactions.  
-Crypto-native forensics skills beyond dashboard tools focusing on raw Etherscan tracing, contract function reading, and DeFi-specific risk identification.
+Crypto-native forensics skills beyond dashboard tools focusing on raw Etherscan tracing, contract function reading, and DeFi-specific risk identification. This is foundational work supporting deeper investigations
 
 ### Key Skills Demonstrated
 - Manual reconstruction of flows (deposits, withdrawals, transfers, approvals, swaps, liquidity events)
