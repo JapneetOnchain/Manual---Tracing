@@ -1,2 +1,394 @@
-# Defi-basic-actions
-Manual blockchain tracing
+<div align="center">
+  <h1>Manual On-Chain Tracing Portfolio</h1>
+  <p><strong>Japneet</strong> • Crypto Compliance & DeFi Forensics</p>
+
+  <img src="https://img.shields.io/badge/Ethereum-3C3C3D?style=for-the-badge&logo=ethereum&logoColor=white" alt="Ethereum" />
+  <img src="https://img.shields.io/badge/DeFi-00D1B2?style=for-the-badge&logo=defi&logoColor=white" alt="DeFi" />
+  <img src="https://img.shields.io/badge/Tracing-FF6B6B?style=for-the-badge&logo=tracing&logoColor=white" alt="Tracing" />
+
+  <br/><br/>
+  <em>Smart contract risk analysis • Manual Tracing • Real cases</em>
+  <br/>
+</div>
+
+## About This Repository
+
+This repository contains daily practice and deep-dive analyses 
+of real Ethereum transactions. Crypto-native forensics skills 
+beyond dashboard tools, focusing on raw Etherscan tracing, 
+contract function reading, and DeFi-specific risk identification. 
+This is foundational work supporting deeper investigations.
+
+### Key Skills Demonstrated
+
+- Manual reconstruction of flows (deposits, withdrawals, 
+  transfers, approvals, swaps, liquidity events)
+- Reading key smart contract functions and events 
+  (deposit, approve, swap, borrow, mint/burn)
+- Identifying compliance red flags (unlimited approvals, 
+  low-liquidity pools, layering patterns, bridge hops)
+
+---
+
+## Wallet Overview
+
+- Network: Ethereum
+- Wallet Type: Externally Owned Account (EOA)
+- Observation Period: Short-duration activity snapshot
+
+---
+
+### Case 001: Deposit/Swap — Ether to Token
+
+<img width="1418" height="588" alt="9CCA8174-0455-4A97-8DFA-8135A9EA29A0" src="https://github.com/user-attachments/assets/f022d13a-dee7-48e1-8703-c4a7f041e153" />
+
+Tx Hash: https://etherscan.io/tx/0x270d8e09e4c96facadee702190eae79b589dd1373fb99c73e6baa8cf35b12366
+
+ETH Deposited: 0.076615 ETH (internally by Banana Gun Router)
+Method: deposit() called internally by router
+Internal Transactions: Transfer 0.076615 ETH from Router 
+to WETH contract, WETH minted back to Router
+
+**Flow Summary:**
+Router sent ETH to WETH contract, called deposit(), 
+minted 0.076615 WETH. WETH then sent to Uniswap V2 pool, 
+swapped for 1,133,562.945 BITPENGU tokens. User received 
+large quantity of low-liquidity meme token (BITPENGU).
+
+**Compliance Note:**
+Internal WETH Deposit is standard for DeFi routers 
+(automation/gas efficiency). BITPENGU swap with high 
+token count and low per-token value could be speculative 
+or a layering step. Flag for downstream monitoring. 
+The intent of the transaction appears to be asset 
+conversion, not custody transfer.
+
+---
+
+### Case 002: ETH Unwrap Action — WETH to ETH
+
+![1B5181AB-02B6-49FA-8812-C4AC76E6A306](https://github.com/user-attachments/assets/11c1ee8b-a876-4fe1-b91e-ef006c1f649d)
+
+Tx Hash: https://etherscan.io/tx/0x45b6728d38f4aa1509b2baac74c6dd6302665db24f67475002249c4ec7716f5a
+
+WETH Withdrawn: 0.05 WETH (burned)
+Method: withdraw(uint256) / 0x2e1a7d4d
+Logs: Withdrawal event (wad matches amount)
+
+**Note:** Simple WETH contract withdrawal (unwrap). User sent 
+WETH to contract, called withdraw(), contract burned WETH, 
+sent equal ETH back. This is the reverse of a Deposit, 
+not a traditional funds withdrawal. Normal DeFi preparatory 
+or closing action with no inherent risk indicators.
+
+---
+
+### Case 003: ERC-20 Token Transfer — WETH (Tiny Amount)
+
+![BC4B0476-C4A9-4FA8-8A97-54797A8C63D7](https://github.com/user-attachments/assets/87b3b58a-61ee-4f9a-8fb4-a4976c05be96)
+
+Tx Hash: https://etherscan.io/tx/0x16b34e6279cb7d79d14ee8195fb9f64247b92cc60dfe0fd407d295888c6dedc7
+
+Type: ERC-20 Token Transfer (WETH)
+From: 0xF5Ac3cc6dB8131e12A5A77cF423424E5862B5FB7
+To: 0x5af33A0F7a7C6DbF2caA3F66Ce0C2d9C9D1E9Ba0
+Amount: 0.00000001 WETH (10000000000 wei)
+Logs: Transfer event (from, to, value = 10000000000 = 0.00000001 WETH)
+
+**Note:** Simple ERC-20 transfer of WETH. Sender moved 
+existing WETH tokens to receiver. No mint/burn, just movement. 
+No contract interaction beyond the transfer call and no 
+DeFi activity.
+
+**Compliance Note:** This could be dusting, a peel chain 
+step, or a test transfer. Flag and monitor downstream activity.
+
+---
+
+### Case 004: Unlimited Approval
+
+![033D0B26-7559-49FD-A554-4B32594D82AA](https://github.com/user-attachments/assets/016c44c9-9ded-4553-9ab8-85c52791df6c)
+
+Tx Hash: https://etherscan.io/tx/0x8cdb894ae780cf9fad047061be34eef373abf736bb1a1e6b4f5c059e88dd1d54
+
+Type: ERC-20 Approval (RIZO token)
+Method: approve / 0x095ea7b3
+Approved Amount: Unlimited (max uint256)
+Spender: Uniswap V2 Router 2
+
+**Note:** User granted unlimited permission to Uniswap V2 
+Router for RIZO. No tokens moved, just allowance set.
+
+**Compliance Risk:** Unlimited approval is high risk 
+(drain potential if spender compromised). Alone it is 
+a flag and monitor situation. Needs downstream transactions 
+to confirm layering or malicious use.
+
+---
+
+### Case 005: Simple Swap (Uniswap V2)
+
+![24DC181B-6822-4449-A9F7-638AF27841FC](https://github.com/user-attachments/assets/53433989-aabe-4456-9a3e-c5781e2cc618)
+
+Tx Hash: https://etherscan.io/tx/0x49face7224a8785529914c1089e92d8b48a1ee6ad8327dc30fb32b7240eac7f9
+
+Type: Uniswap V2 Swap (ETH to Token)
+Input: 0.06817 ETH (~$133.64)
+Output: 2,962,989.756 RocketRiders (RDRS)
+Internal: WETH Deposit (ETH wrapped automatically)
+Method: swapExactETHForTokens
+Logs: Swap event
+
+**Note:** User swapped ETH for large amount of 
+low-liquidity meme token via Uniswap V2 Router. 
+Pattern: ETH, internal WETH wrap, swap, token out.
+
+**Compliance Risk:** High token count plus low-value 
+token is a potential layering or pump-dump pattern. 
+Flag downstream transfers (bridge/mixer?).
+
+---
+
+### Case 006: Balancer Vault Swap — AURA to WETH to ETH Unwrap
+
+![7D14D218-6B3B-43E8-A24B-E7E622EE5A0D](https://github.com/user-attachments/assets/6ff2b63f-fb6a-49e1-9367-87ec55025706)
+
+Tx Hash: https://etherscan.io/tx/0xcc25eec5f5fe3c25743a07ca0874b0076bce5e6936aa545dc733ebdcfeb512b0
+
+Type: Balancer Swap (AURA to WETH to ETH)
+Input: 69.87 AURA (~$2.38)
+Output: 0.001182 WETH unwrapped to ETH ($2.43)
+Method: swap
+Internal: WETH Withdrawal (unwrapped to ETH)
+Logs: Swap event (AURA in, WETH out)
+
+**Note:** User swapped AURA for ETH via Balancer Vault. 
+Pattern: Token in, swap, WETH out, ETH unwrapped to user.
+
+**Compliance Risk:** Small amount on low-cap token could 
+be a test or dusting or layering start. Flag downstream 
+ETH flows (bridge/mixer?).
+
+---
+
+### Case 007: Prior Approval and Swap
+
+![B858DDE8-8B77-4774-9BCD-9051BD77699C](https://github.com/user-attachments/assets/e0887d13-00f2-4e86-a5e3-6632546ca439)
+
+Tx Hash (Approval): https://etherscan.io/tx/0x0fe9d3b10c075fea04aefa7d530e4266bca716cd847b1313732a1cf1638ff1a0
+
+Type: ERC-20 Approval (Unlimited Allowance)
+Token: RTX
+Spender: Uniswap V2 Router 2
+Allowance: Unlimited (2^256 - 1)
+Method: approve(address spender, uint256 amount)
+Logs: Approval event (owner to router, unlimited amount)
+
+**Note:** User granted delegated authority to Uniswap V2 
+Router 2 to spend RTX via transferFrom. No token balance 
+change occurred. This approval enables future swaps 
+without additional approval transactions.
+
+**Compliance Risk:** Unlimited approval exposes wallet to 
+contract risk if spender contract is malicious or 
+compromised. Verify spender legitimacy (Uniswap V2 
+Router 2 is verified and widely used).
+
+![15F16120-8FA4-48C8-A845-F6F29ED942E0](https://github.com/user-attachments/assets/4e5c34e0-a703-4243-91e2-85516c717c6d)
+
+Tx Hash (Swap): https://etherscan.io/tx/0xe0abae8eddbfb296089b68052180193e50a9278bc81e2c538449d04b664f6819
+
+Type: Uniswap V2 Swap (RTX to WETH to ETH)
+Input: 10.32M RTX
+Output: ~0.158 ETH
+Method: swapExactTokensForETH
+Internal: WETH Withdrawal (WETH to ETH unwrap)
+
+Logs:
+- Transfer event (RTX: wallet to Uniswap V2 Pair)
+- Swap event (pricing execution in pool)
+- WETH Transfer (pair to router)
+- Withdrawal event (WETH unwrapped to ETH)
+
+**Note:** User swapped RTX for ETH via Uniswap V2.
+
+Execution flow: Token in, Router transferFrom, Pool swap, 
+WETH out, WETH unwrapped, ETH sent to wallet. This swap 
+was enabled by the prior unlimited RTX approval granted 
+to the Uniswap V2 Router.
+
+**Compliance Risk:** Standard DEX swap pattern. Key 
+validation point: delegated authority was previously 
+granted so token movement was authorized.
+
+---
+
+### Case 008: Liquidity Added (Mint)
+
+![29ED050E-49AE-4DA2-BA30-53A6264AACB1](https://github.com/user-attachments/assets/89fcab18-0ee2-4c53-b4ba-9dc147682013)
+
+![E5FF69F4-7533-43D8-8B33-9D17C7CFF6AD](https://github.com/user-attachments/assets/eebeb45d-da24-4f6e-8447-e0673ad8c0c1)
+
+Tx Hash: https://etherscan.io/tx/0x85f24d8e52788d0fa658c318a14b58f84a8e9ce773247264802e20ae520a3efa
+
+Type: Uniswap V2 Liquidity Add
+Tokens Added: 1,000,000,000 GMPEPE + 0.5 ETH ($967.68)
+Method: OpenTrading() / Add Liquidity ETH
+Logs: Approval, PairCreated, MaxTxAmountUpdated, 
+Transfer (GMPEPE to pool), Deposit (WETH), 
+Transfer (WETH to pool), Sync, Mint (LP tokens)
+
+**Note:** Creator added 1B GMPEPE plus 0.5 ETH to new 
+Uniswap V2 pool and received ~707M UNI-V2 LP tokens.
+
+**Crypto-native insight:** Low ETH pairing means very 
+low liquidity, high impermanent loss risk, and high 
+price manipulation risk.
+
+**Compliance Risk:** Initial liquidity creation consistent 
+with token launch behavior. Creator holds LP tokens, 
+meaning rug pull is possible at any time. Small initial 
+liquidity plus new token is high pump/dump or layering risk.
+
+**Non-compliance perspective:** Standard token launch step. 
+Creator adds initial liquidity and enables trading via 
+OpenTrading(). Common for meme/community tokens to 
+bootstrap volume and earn fees as LP.
+
+---
+
+### Case 009: Liquidity Removal (Burn)
+
+![E057B4B5-9BE9-4C96-B7B9-F8B08E511C7D](https://github.com/user-attachments/assets/539276e6-a581-4fc7-87da-7a752721057a)
+
+Tx Hash: https://etherscan.io/tx/0x905c2befdcfd0ecc2e3b1fc8e77754b8571c4dd480c80c7a7e887d9e8f0293a9
+
+Type: Liquidity Removal
+Tokens Returned: 2,225 NOVA + 1,463 USDC
+LP Token Burned: 0.00180461195773303
+Method: removeLiquidity
+Logs: Transfer (LP to pool), Burn (LP burned), 
+Transfer (NOVA and USDC back to user), 
+Sync (pool reserves updated)
+
+**Note:** User removed liquidity from NOVA/USDC pool, 
+burned LP token, received proportional NOVA and USDC back.
+
+**Compliance Risk:** Small removal in low cap token is 
+a possible layering or wash trading exit. Flag LP wallet 
+for repeated removals or downstream bridges/mixers.
+
+**Non-compliance perspective:** Wallet exited a liquidity 
+position and reclaimed underlying assets.
+
+---
+
+### Case 010: Lending Deposit (Aave)
+
+![259C6D74-4D45-4E5F-9FC6-19BC54F7D36C](https://github.com/user-attachments/assets/ca39a3ae-5a7c-4aab-a357-a1c9be2457f1)
+
+Tx Hash: https://etherscan.io/tx/0x8b58d72c4c7d39a5b7a78017a2479bee671475f91eee88646a6eaf6988560254
+
+Type: Aave Deposit (Supply)
+Token Deposited: 0.0113827 WBTC
+Method: supply(address asset, uint256 amount, 
+address onBehalfOf, uint16 referralCode)
+Logs: Supply event, Mint (aEthWBTC), 
+Transfer (WBTC to reserve), ReserveDataUpdated
+
+**Note:** User deposited WBTC to Aave V3 Pool and 
+received aEthWBTC receipt token to earn yield.
+
+**Compliance Risk:** Deposit could park funds to earn 
+yield before layering (future borrow, swap, bridge). 
+Standalone not suspicious but flag if WBTC source 
+is suspicious.
+
+**Non-compliance perspective:** Over-collateralization 
+enforced by contract or oracle. Receipt token accrues 
+interest on-chain.
+
+---
+
+### Case 011: Borrowing (Aave)
+
+![C3A9CD04-A827-4D4F-AE24-F10178FF3EEA](https://github.com/user-attachments/assets/eddc489f-c2c1-401e-a013-908991a1be6c)
+
+Tx Hash: https://etherscan.io/tx/0x803fe6b96289ff7266226a6501724bba0db986860b5b07861b926304cff61c5b
+
+Type: Aave V3 Borrow
+Borrowed: 5,000 LINK (~$43,700)
+Logs: Borrow event, ReserveDataUpdated, 
+Mint (aEthVariableDebtLINK), Transfer (LINK to borrower)
+
+**Note:** User borrowed 5,000 LINK at variable rate 
+against collateral from earlier deposit.
+
+**Compliance Risk:** Borrow clean LINK, swap, bridge 
+is a classic layering pattern. Standalone not suspicious 
+but flag if collateral source is suspicious or downstream 
+transactions show rapid movement.
+
+**Non-compliance perspective:** Borrow requires 
+over-collateralization (health factor greater than 1), 
+enforced by contract or oracle. Variable rate adjusts 
+with pool utilization. Borrowed funds are now liquid 
+and can move across DeFi or off-ramp.
+
+---
+
+### Case 012: Repaying Loan
+
+![73EB1051-F812-4F7F-92F8-C48EA3A66294](https://github.com/user-attachments/assets/432ac685-3be9-4ecf-9638-ad65ea41a0b4)
+
+Tx Hash: https://etherscan.io/tx/0x037d81a5dd203833bb3e90bbb59e20ceeb95cc5ab45ebc7d10fdaf8c4495c371
+
+Type: Aave V3 Partial Repayment
+Repaid: 140.28 USDC (principal plus interest)
+Logs: Repay event, Burn (variable debt tokens), 
+ReserveDataUpdated, Transfer (USDC to reserve)
+
+**Note:** User repaid 140.28 USDC on variable rate 
+and reduced debt (140.281718 variable debt tokens burned).
+
+**Compliance Risk:** Partial repay with clean funds 
+then withdraw dirty collateral is a known obfuscation 
+pattern. Standalone not suspicious but trace downstream 
+withdrawal for swap/bridge/mixer activity.
+
+**Non-compliance perspective:** Repay burns debt token 
+and lowers health factor risk. Interest accrued on-chain 
+via reserve index.
+
+---
+
+### Case 013: Aave Withdrawal
+
+![7F99F044-F7AB-46C0-9E41-F7D83362F85C](https://github.com/user-attachments/assets/0207f269-76a6-4a72-87db-670504c16b3a)
+
+Tx Hash: https://etherscan.io/tx/0xd2a7105863fe08e32e2e768199c75cfbc8c7b6a94a9c479301585e3c1861a7d6
+
+Type: Aave V3 Withdrawal
+Token Withdrawn: 506.608387 USDT (~$506.55)
+Logs: ReserveDataUpdated, Transfer (aEthUSDT burn), 
+Burn (aEthUSDT), Transfer (USDT to user), 
+ReserveUsedAsCollateralDisabled, Withdraw event
+
+**Note:** User withdrew 506.61 USDT from Aave V3, 
+burned aEthUSDT receipt token, and disabled collateral.
+
+**Compliance Risk:** Withdrawal after repay is a potential 
+obfuscation pattern (clean repay, dirty collateral out). 
+Standalone not suspicious but trace downstream for 
+swap/bridge/mixer activity.
+
+**Non-compliance perspective:** Withdrawal burns receipt 
+token and returns underlying plus yield. Wallet redeemed 
+its Aave deposit and exited the lending position.
+
+---
+
+## Disclaimer
+
+This case study is for educational and research purposes only.
+All addresses are public and no illicit activity is asserted.
