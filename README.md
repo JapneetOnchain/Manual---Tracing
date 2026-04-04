@@ -65,7 +65,7 @@ conversion, not custody transfer.
 
 ---
 
-### Case 002: ETH Unwrap Action — WETH to ETH
+### Case 002: ETH Unwrap Action - WETH to ETH
 
 ![1B5181AB-02B6-49FA-8812-C4AC76E6A306](https://github.com/user-attachments/assets/11c1ee8b-a876-4fe1-b91e-ef006c1f649d)
 
@@ -83,7 +83,7 @@ or closing action with no inherent risk indicators.
 
 ---
 
-### Case 003: ERC-20 Token Transfer — WETH (Tiny Amount)
+### Case 003: ERC-20 Token Transfer - WETH (Tiny Amount)
 
 ![BC4B0476-C4A9-4FA8-8A97-54797A8C63D7](https://github.com/user-attachments/assets/87b3b58a-61ee-4f9a-8fb4-a4976c05be96)
 
@@ -149,7 +149,7 @@ Flag downstream transfers (bridge/mixer?).
 
 ---
 
-### Case 006: Balancer Vault Swap — AURA to WETH to ETH Unwrap
+### Case 006: Balancer Vault Swap AURA to WETH to ETH Unwrap
 
 ![7D14D218-6B3B-43E8-A24B-E7E622EE5A0D](https://github.com/user-attachments/assets/6ff2b63f-fb6a-49e1-9367-87ec55025706)
 
